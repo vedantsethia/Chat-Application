@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Hey Talkies.. </title>
+<style>
+ body {
+    background-color: rgba(213, 213,213, 0.7);
+}
+.title {
+    min-width: 400px;
+    width: 100%;
+    max-width: 800px;
+    margin: 10px auto;
+    text-align: center;
+    background: rgba(204, 210, 360, 0.70);
+    font-size: 2em;
+}
+
+
+#container {
+    width: 600px;
+    border: 1px solid black;
+    margin: 15px auto;
+    background: rgba(204, 210, 360, 0.70);
+
+}
+
+#chatDisp {
+    height: 600px;
+    width: 580px;
+    margin: 0 auto;
+    margin-top: 5px;
+    background-color: rgba(255, 255, 255, 0.51); 
+}
+
+#input {
+    width: 100%;
+    height: 52px;
+    position: relative;
+    margin: 5px 0;
+}
+#input p {
+    position: absolute;
+    z-index: 3;	
+    background-color: rgba(228, 219, 188, 0.70);
+    padding: 5px;
+    top: -55px;
+    left: 15px;
+    visibility: hidden;
+}
+
+#input label {
+    background-color: #e1d8b9;
+    display: block;
+    position: absolute;
+    z-index: 2;
+    padding: 10px;
+    font-size: 1.5em;
+    left: 520px;
+    border: 2px solid black;
+    cursor: pointer;
+}
+input[type='text']{
+    display: block;
+    width: 560px;
+    padding: 10px;
+    margin: 0 auto;
+    font-size: 1.5em;
+    margin-bottom: 5px;
+    position: absolute;
+    z-index: 1;
+    left: 8px;
+    border-color: rgba(217, 247, 262, 0.83);
+    outline-width: 5px;
+    outline-color: rgba(217, 147, 62, 0.83);
+    background-color: rgba(228, 219, 188, 0.80);
+}
+
+.message{
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 10px;
+    background-color: rgba(216, 210,360, 0.50);
+    padding: 10px;
+    color: #ebd4a8;
+}
+
+.avatar {
+    width: 15%;
+    height: 75px;
+    border: 2px solid #ebd4a8;
+    border-radius: 5px;
+    font-size: 1.5em;
+    background-color: #ffffff;
+}
+
+.text {
+    float: right;
+    width: 80%;
+    padding: 10px;
+    margin: 0;
+    text-align: justify;
+    height: 55px;
+    overflow: hidden;
+    background-color: rgba(255, 255, 355, 0.11);
+}
+
+.datetime {
+    float: right;
+    margin: 0;
+    margin-right: 15px;
+    padding: 5px;
+    visibility: visible;
+    background-color: #ffffff;
+    font-size: .8em;
+}
+.text:hover {
+    height: auto;
+    min-height: 55px;
+}
+
+
+</style>
+
+
+
+<body>
+
+<h1 class="title"><span id="user"></span> is online</h1>
+<div id="container">
+    <div id="chatDisp"></div>
+    <div id="input">
+			<p id="typing">typing</p>
+            <label id="sendMessage" for="messageInput">Send</label>
+            <input id="messageInput" type="text">
+    </div>
+</div>
+
+
+<script>
+ 
+	var person = "";
+	var operson = "";
+	if(localStorage.getItem("you")){
+	
+		person = "other";
+		operson = "you";
+	
+	
+	
+	}else{
+		person = "you";
+		operson = "other";
+	
+	}
+	
+	localStorage.setItem(person,"***");
+
+
+    var user = prompt("Enter your Name: ");
+    var nam = document.getElementById('user');
+    nam.innerHTML = user;
+
+    var input = document.getElementById('messageInput');
+    var chatDisplay = document.getElementById('chatDisp');
+    var typing = document.getElementById('typing');
+
+    input.addEventListener('keydown', function(){
+        typing.style.visibility="visible";
+    });
+
+    input.addEventListener('keyup', function(){
+        typing.style.visibility="hidden";
+    });
+	
+
+     var displayChat = document.getElementById('chatDisp');
+	
+	 var s = document.querySelector("#sendMessage");
+	 s.addEventListener("click",message, false);
+	 
+	 
+		
+	 function message(){
+		var mess = document.createElement("div");
+		mess.setAttribute("class","right");
+		mess.innerHTML = input.value;
+		chatDisplay.appendChild(mess);
+		localStorage.setItem(person,input.value);
+	 }
+		
+		
+		document.addEventListener("storage", msg, false);
+		
+		
+		function msg(e){
+		
+			if(e.key = operson){
+			
+			var mess = document.createElement("div");
+			mess.setAttribute("class","left");
+			mess.innerHTML = localStorage.getItem(operson);
+			chatDisplay.appendChild(mess);
+			
+			
+			}
+		
+		
+		}
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+     /*if(!localStorage.getItem("chat")){
+     localStorage.setItem("chat", JSON.stringify([]));
+     }
+     var chatHistory = JSON.parse(localStorage.getItem("chat"));
+
+
+     var send = document.getElementById('sendMessage');
+     var i =0;
+     send.addEventListener('click', function () {
+
+         if (document.getElementById('messageInput').value == ""){
+             alert("please Enter something in Chat....");
+             return
+         }
+
+         var message={
+             name : userName,
+             text : document.getElementById('messageInput').value,
+             dateTime : new Date().toLocaleTimeString() + " " + new Date().toDateString(),
+             src : "http://pickaface.net/includes/themes/clean/img/slide4.png"
+         };
+         chatHistory.push(message);
+         document.getElementById('messageInput').value = "";
+         localStorage.setItem("chat", JSON.stringify(chatHistory));
+
+         localData = localStorage.getItem("chat");
+         localData = JSON.parse(localData);
+         var templateDiv =
+             "<div class='message'>" +
+             "<img class='avatar' src='"+ localData[i].src +"' alt=''/>" +
+             "<p class='text'>" + localData[i].text + "</p>" + "<div class='clear'></div>" + "</div>"+
+         "<p class='datetime'>" + localData[i].dateTime + "</p>" + "<div class='clear'></div>";
+         i++;
+         chatDisplay.innerHTML += templateDiv;
+     });
+	 */
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <style>
+.login_form {
+ border: 1px solid #AAA;
+ padding:10px;
+}
+h3 {margin-top:3px;}
+.chat_main {
+ border:1px solid #AAA;
+ -moz-box-shadow:0 0 10px #ccc;
+ -webkit-box-shadow: 0 0 10px #ccc;
+ width:350px;
+ padding:10px;
+ background:#f3f3f3;
+}
+.message {
+ border:1px solid #AAA;
+ margin:4px;
+ padding:5px;
+ -moz-border-radius:7px;
+ -webkit-border-radius:7px;
+ background:#ffffff;
+}
+.textf {
+-moz-box-shadow:0 0 10px #CCCCCC;
+-webkit-box-shadow:0 0 10px #CCCCCC;
+border:1px solid #CCCCCC;
+height:40px;
+}
+.submit {
+-moz-border-radius:7px;
+-webkit-border-radius:7px;
+background:#F3F3F3;
+border:1px solid #CCCCCC;
+font-size:16px;
+font-weight:bold;
+height:35px;
+margin-left:10px;
+padding:5px;
+}
+.message span {
+ font-size:10px;
+ color:#888;
+ margin-left:10px;
+}
+.submit_form {
+ margin:10px 0px;
+}
+
+</style>
+</head>
+<body>
+
+<frameset rows="65%,35%" framespacing="1" frameborder="yes" border="1" bordercolor="#FF0000">
+    <frame src="messages.php" name="main_frame">
+    <frame src="main.php" name="login_frame" scrolling="no" noresize target="middle">
+</frameset>
+
+<link type="text/css" rel="stylesheet" href="styles.css" />
+<form class="login_form" method="post" action="main.php">
+ <div>Username: <input type="text" name="username" /></div>
+ <div>Password: <input type="password" name="password" /></div>
+ <div><input type="submit" value="Login" name="Login" /></div>
+</form>
+<div>You can use username "User1" or "User2" or "User3" and password "qwerty" to login in system</div>
+
+<link type="text/css" rel="stylesheet" href="styles.css" />
+<div class="chat_main">
+ <h3>Chat</h3>
+
+</div>
+
+<link type="text/css" rel="stylesheet" href="styles.css" />
+<form class="submit_form" method="post" action="main.php">
+ <div><input type="text" name="s_message" /><input type="submit" value="Say" name="s_say" /></div>
+</form>
+<div>You can type anything in chat</div>
+
+</body>
+-->
+</html>
